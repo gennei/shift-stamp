@@ -50,7 +50,7 @@ export function formatDayLabel(dateString) {
   const [y, m, d] = dateString.split("-").map(Number);
   const date = new Date(y, m - 1, d);
   const weekday = ["日", "月", "火", "水", "木", "金", "土"][date.getDay()];
-  return `${dateString} (${weekday})`;
+  return `${d} (${weekday})`;
 }
 
 export function buildEvent(dateString, shiftType) {

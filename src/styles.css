@@ -1,6 +1,6 @@
 :root {
   color-scheme: light;
-  --bg: #f8fafc;
+  --bg: #ffffff;
   --surface: #ffffff;
   --text: #0f172a;
   --muted: #475569;
@@ -17,7 +17,7 @@ body {
   margin: 0;
   font-family: "Segoe UI", "Noto Sans JP", sans-serif;
   color: var(--text);
-  background: linear-gradient(180deg, #f0fdfa 0%, var(--bg) 45%);
+  background: var(--bg);
 }
 
 .app {
@@ -187,9 +187,9 @@ button.primary {
 }
 
 .shift-options {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
 }
 
 .shift-options label {
@@ -217,5 +217,11 @@ button.primary {
   .buttons {
     width: 100%;
     justify-content: flex-end;
+  }
+
+  .shift-options label {
+    justify-content: center;
+    padding: 6px 8px;
+    font-size: 12px;
   }
 }
