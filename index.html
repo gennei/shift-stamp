@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0f766e" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="stylesheet" href="/src/styles.css" />
+    <title>ShiftStamp</title>
+    <script>
+      window.SHIFT_PWA_CLIENT_ID =
+        "732616516247-nrvnubahqudl1tmj9bq7ebgcabfaajlp.apps.googleusercontent.com";
+    </script>
+    <script
+      src="https://accounts.google.com/gsi/client"
+      async
+      defer
+    ></script>
+  </head>
+  <body>
+    <div class="app">
+      <header class="header">
+        <div>
+          <h1>ShiftStamp</h1>
+          <p class="sub">シフトをまとめて入力し、Google Calendarへ同期します。</p>
+        </div>
+      </header>
+
+      <section class="controls" id="loginSection">
+        <div class="login">
+          <button id="loginButton" type="button">ログイン</button>
+        </div>
+      </section>
+
+      <section class="controls gated gated-grid" data-gated>
+        <div class="calendar-config">
+          <label for="calendarSelect">連携カレンダー</label>
+          <select id="calendarSelect"></select>
+          <small>カレンダーを選択してください。</small>
+        </div>
+      </section>
+
+      <section class="controls gated gated-flex" data-gated>
+        <div class="control-group">
+          <label for="monthInput">対象年月</label>
+          <input id="monthInput" type="month" />
+        </div>
+      </section>
+
+      <section>
+        <div id="status" class="status" role="status"></div>
+        <div id="loginBanner" class="login-banner" role="status"></div>
+        <div id="daysContainer" class="days gated" data-gated></div>
+      </section>
+
+      <section class="actions gated gated-flex" data-gated>
+        <div class="buttons">
+          <button id="saveButton" type="button">保存</button>
+        </div>
+      </section>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
