@@ -113,7 +113,8 @@ function loadMonth(ym) {
 
 function initMonthInput() {
   const now = new Date();
-  const ym = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+  const next = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+  const ym = `${next.getFullYear()}-${String(next.getMonth() + 1).padStart(2, "0")}`;
   monthInput.value = ym;
   loadMonth(ym);
 }
