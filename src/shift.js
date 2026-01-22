@@ -32,15 +32,15 @@ export const SHIFT_OPTIONS = [
   { type: SHIFT_TYPES.OFF, label: "休み" },
 ];
 
-export function getMonthDays(ym) {
+export function getPeriodDays(ym) {
   const [year, month] = ym.split("-").map(Number);
-  const lastDate = new Date(year, month, 0).getDate();
+  const start = new Date(year, month - 1, 6);
+  const end = new Date(year, month, 5);
   const days = [];
-  for (let day = 1; day <= lastDate; day += 1) {
-    const date = new Date(year, month - 1, day);
-    const yyyy = String(date.getFullYear());
-    const mm = String(date.getMonth() + 1).padStart(2, "0");
-    const dd = String(day).padStart(2, "0");
+  for (let cursor = new Date(start); cursor <= end; cursor.setDate(cursor.getDate() + 1)) {
+    const yyyy = String(cursor.getFullYear());
+    const mm = String(cursor.getMonth() + 1).padStart(2, "0");
+    const dd = String(cursor.getDate()).padStart(2, "0");
     days.push(`${yyyy}-${mm}-${dd}`);
   }
   return days;
@@ -50,7 +50,7 @@ export function formatDayLabel(dateString) {
   const [y, m, d] = dateString.split("-").map(Number);
   const date = new Date(y, m - 1, d);
   const weekday = ["日", "月", "火", "水", "木", "金", "土"][date.getDay()];
-  return `${d} (${weekday})`;
+  return `${m}/${d} (${weekday})`;
 }
 
 export function buildEvent(dateString, shiftType) {

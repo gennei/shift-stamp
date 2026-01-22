@@ -1,4 +1,4 @@
-import { SHIFT_TYPES, buildEvent, getMonthDays } from "./shift.js";
+import { SHIFT_TYPES, buildEvent, getPeriodDays } from "./shift.js";
 import { listAppEvents, insertEvent, patchEvent, deleteEvent } from "./gcal.js";
 
 function delay(ms) {
@@ -6,10 +6,10 @@ function delay(ms) {
 }
 
 export async function syncMonth({ ym, plan, token, calendarId, onProgress }) {
-  const days = getMonthDays(ym);
+  const days = getPeriodDays(ym);
   const [year, month] = ym.split("-").map(Number);
-  const timeMin = new Date(Date.UTC(year, month - 1, 1)).toISOString();
-  const timeMax = new Date(Date.UTC(year, month, 0, 23, 59, 59)).toISOString();
+  const timeMin = new Date(Date.UTC(year, month - 1, 6)).toISOString();
+  const timeMax = new Date(Date.UTC(year, month, 5, 23, 59, 59)).toISOString();
 
   onProgress?.(`既存イベント取得中...`);
   const existingEvents = await listAppEvents(token, calendarId, timeMin, timeMax);

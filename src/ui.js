@@ -1,8 +1,8 @@
-import { SHIFT_OPTIONS, SHIFT_TYPES, formatDayLabel, getMonthDays } from "./shift.js";
+import { SHIFT_OPTIONS, SHIFT_TYPES, formatDayLabel, getPeriodDays } from "./shift.js";
 
 export function renderDays(container, ym, plan, onChange) {
   container.innerHTML = "";
-  const days = getMonthDays(ym);
+  const days = getPeriodDays(ym);
 
   days.forEach((dateString) => {
     const row = document.createElement("div");
