@@ -3,8 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#0f766e" />
+    <meta name="theme-color" content="#b5472f" />
     <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+JP:wght@400;500;600&family=IBM+Plex+Sans+JP:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="/src/styles.css" />
     <title>ShiftStamp</title>
     <script>
@@ -19,45 +25,98 @@
   </head>
   <body>
     <div class="app">
-      <header class="header">
-        <div>
+      <header class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Shift planning studio</p>
           <h1>ShiftStamp</h1>
-          <p class="sub">シフトをまとめて入力し、Google Calendarへ同期します。</p>
+          <p class="sub">
+            6日始まりの勤務表を静かに整え、Google Calendarへそのまま流し込みます。
+          </p>
         </div>
       </header>
 
-      <section class="controls" id="loginSection">
-        <div class="login">
-          <button id="loginButton" type="button">ログイン</button>
-        </div>
-      </section>
+      <main class="workspace">
+        <section class="panel auth-panel" id="loginSection">
+          <div class="panel-heading">
+            <p class="panel-kicker">Access</p>
+            <h2>接続</h2>
+          </div>
+          <p class="panel-copy">
+            まず Google アカウントに接続して、同期先のカレンダーを読み込みます。
+          </p>
+          <div class="login">
+            <button id="loginButton" type="button" class="button-primary">Googleでログイン</button>
+          </div>
+        </section>
 
-      <section class="controls gated gated-grid" data-gated>
-        <div class="calendar-config">
-          <label for="calendarSelect">連携カレンダー</label>
-          <select id="calendarSelect"></select>
-          <small>カレンダーを選択してください。</small>
-        </div>
-      </section>
+        <section class="control-grid">
+          <section class="panel gated" data-gated>
+            <div class="panel-heading">
+              <p class="panel-kicker">Destination</p>
+              <h2>連携カレンダー</h2>
+            </div>
+            <div class="calendar-config">
+              <label for="calendarSelect">保存先</label>
+              <select id="calendarSelect"></select>
+              <small>選択したカレンダーにアプリ作成イベントを同期します。</small>
+            </div>
+          </section>
 
-      <section class="controls gated gated-flex" data-gated>
-        <div class="control-group">
-          <label for="monthInput">対象年月</label>
-          <input id="monthInput" type="month" />
-        </div>
-      </section>
+          <section class="panel gated" data-gated>
+            <div class="panel-heading">
+              <p class="panel-kicker">Period</p>
+              <h2>対象年月</h2>
+            </div>
+            <div class="control-group">
+              <label for="monthInput">勤務表の月</label>
+              <input id="monthInput" type="month" />
+            </div>
+          </section>
 
-      <section>
-        <div id="status" class="status" role="status"></div>
-        <div id="loginBanner" class="login-banner" role="status"></div>
-        <div id="daysContainer" class="days gated" data-gated></div>
-      </section>
+          <section class="panel summary-panel gated" data-gated>
+            <div class="panel-heading">
+              <p class="panel-kicker">Summary</p>
+              <h2>入力サマリー</h2>
+            </div>
+            <div class="summary-grid">
+              <article class="summary-card">
+                <span class="summary-label">早番</span>
+                <strong id="countEarly">0</strong>
+              </article>
+              <article class="summary-card">
+                <span class="summary-label">中番</span>
+                <strong id="countMiddle">0</strong>
+              </article>
+              <article class="summary-card">
+                <span class="summary-label">遅番</span>
+                <strong id="countLate">0</strong>
+              </article>
+              <article class="summary-card summary-card-accent">
+                <span class="summary-label">休み</span>
+                <strong id="countOff">0</strong>
+              </article>
+            </div>
+          </section>
+        </section>
 
-      <section class="actions gated gated-flex" data-gated>
-        <div class="buttons">
-          <button id="saveButton" type="button">保存</button>
-        </div>
-      </section>
+        <section id="statusShell" class="status-shell is-hidden">
+          <div id="loginBanner" class="login-banner" role="status"></div>
+          <div id="status" class="status" role="status"></div>
+        </section>
+
+        <section class="days-shell gated" data-gated>
+          <div class="days-header">
+            <div>
+              <p class="panel-kicker">Sheet</p>
+              <h2>日別シフト</h2>
+            </div>
+            <div class="buttons">
+              <button id="saveButton" type="button" class="button-primary">保存して同期</button>
+            </div>
+          </div>
+          <div id="daysContainer" class="days"></div>
+        </section>
+      </main>
     </div>
 
     <script type="module" src="/src/main.js"></script>

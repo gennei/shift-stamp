@@ -2,16 +2,22 @@ import { renderDays, setStatus } from "./ui.js";
 import { requestAccessToken } from "./auth.js";
 import { syncMonth } from "./sync.js";
 import { listCalendars } from "./gcal.js";
+import { SHIFT_TYPES } from "./shift.js";
 
 const monthInput = document.getElementById("monthInput");
 const daysContainer = document.getElementById("daysContainer");
 const saveButton = document.getElementById("saveButton");
 const loginButton = document.getElementById("loginButton");
 const statusEl = document.getElementById("status");
+const statusShell = document.getElementById("statusShell");
 const calendarSelect = document.getElementById("calendarSelect");
 const loginBanner = document.getElementById("loginBanner");
 const loginSection = document.getElementById("loginSection");
 const gatedSections = document.querySelectorAll("[data-gated]");
+const countEarly = document.getElementById("countEarly");
+const countMiddle = document.getElementById("countMiddle");
+const countLate = document.getElementById("countLate");
+const countOff = document.getElementById("countOff");
 
 let currentPlan = {};
 let accessToken = "";
@@ -47,16 +53,25 @@ function getCurrentYm() {
 
 function updateStatus(message, tone = "info") {
   setStatus(statusEl, message, tone);
+  refreshStatusShell();
 }
 
 function showLoginBanner(message) {
   loginBanner.textContent = message;
   loginBanner.classList.add("is-visible");
+  refreshStatusShell();
 }
 
 function hideLoginBanner() {
   loginBanner.textContent = "";
   loginBanner.classList.remove("is-visible");
+  refreshStatusShell();
+}
+
+function refreshStatusShell() {
+  const hasBanner = Boolean(loginBanner.textContent.trim());
+  const hasStatus = Boolean(statusEl.textContent.trim());
+  statusShell.classList.toggle("is-hidden", !hasBanner && !hasStatus);
 }
 
 function setGatedVisible(visible) {
@@ -107,8 +122,31 @@ function loadMonth(ym) {
   currentPlan = {};
   renderDays(daysContainer, ym, currentPlan, (dateString, shiftType) => {
     currentPlan[dateString] = shiftType;
+    updateSummary();
   });
+  updateSummary();
   updateStatus(`${ym} を表示しました。`);
+}
+
+function updateSummary() {
+  const counts = {
+    [SHIFT_TYPES.EARLY]: 0,
+    [SHIFT_TYPES.MIDDLE]: 0,
+    [SHIFT_TYPES.LATE]: 0,
+    [SHIFT_TYPES.OFF]: 0,
+  };
+
+  const radios = daysContainer.querySelectorAll('input[type="radio"]:checked');
+  radios.forEach((radio) => {
+    if (counts[radio.value] !== undefined) {
+      counts[radio.value] += 1;
+    }
+  });
+
+  countEarly.textContent = String(counts[SHIFT_TYPES.EARLY]);
+  countMiddle.textContent = String(counts[SHIFT_TYPES.MIDDLE]);
+  countLate.textContent = String(counts[SHIFT_TYPES.LATE]);
+  countOff.textContent = String(counts[SHIFT_TYPES.OFF]);
 }
 
 function initMonthInput() {

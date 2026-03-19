@@ -5,12 +5,16 @@ export function renderDays(container, ym, plan, onChange) {
   const days = getPeriodDays(ym);
 
   days.forEach((dateString) => {
+    const [year, month, day] = dateString.split("-").map(Number);
+    const date = new Date(year, month - 1, day);
+    const weekday = ["日", "月", "火", "水", "木", "金", "土"][date.getDay()];
     const row = document.createElement("div");
     row.className = "day-row";
+    row.dataset.weekday = weekday;
 
     const label = document.createElement("div");
     label.className = "day-label";
-    label.textContent = formatDayLabel(dateString);
+    label.innerHTML = `<span class="day-date">${formatDayLabel(dateString)}</span>`;
 
     const options = document.createElement("div");
     options.className = "shift-options";
