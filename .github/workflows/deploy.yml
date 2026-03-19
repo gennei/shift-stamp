@@ -32,10 +32,24 @@ jobs:
         run: npm ci
       - name: Build
         run: npm run build
+      - name: Archive artifact
+        run: |
+          tar \
+            --dereference \
+            --hard-dereference \
+            --directory dist \
+            -cvf "$RUNNER_TEMP/artifact.tar" \
+            --exclude=.git \
+            --exclude=.github \
+            --exclude=".[^/]*" \
+            .
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
-          path: dist
+          name: github-pages
+          path: ${{ runner.temp }}/artifact.tar
+          retention-days: 1
+          if-no-files-found: error
 
   deploy:
     needs: build
