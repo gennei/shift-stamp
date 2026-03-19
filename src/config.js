@@ -4,9 +4,12 @@ export const SHIFT_PROPERTY = "shiftPwa";
 export const SHIFT_DATE_PROPERTY = "shiftDate";
 export const SHIFT_TYPE_PROPERTY = "shiftType";
 
+const browserWindow = typeof window !== "undefined" ? window : undefined;
+const browserStorage = typeof localStorage !== "undefined" ? localStorage : undefined;
+
 export const CLIENT_ID =
-  window.SHIFT_PWA_CLIENT_ID ||
-  localStorage.getItem("shift-client-id") ||
+  browserWindow?.SHIFT_PWA_CLIENT_ID ||
+  browserStorage?.getItem("shift-client-id") ||
   "";
 
 export const SCOPES =
